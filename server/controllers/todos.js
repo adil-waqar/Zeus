@@ -56,5 +56,24 @@ module.exports = {
           .catch(err => res.status(400).send(err));
       })
       .catch(err => res.status(400).send(err));
+  },
+  destroy(req, res) {
+    return Todo.findByPk(req.params.todoId)
+      .then(todo => {
+        if (!todo) {
+          return res.status(404).send({
+            message: 'Todo not found'
+          });
+        }
+        return todo
+          .destroy()
+          .then(() =>
+            res.status(204).send({
+              message: 'Todo deleted successfully'
+            })
+          )
+          .catch(err => res.status(400).send(err));
+      })
+      .catch(err => res.status(400).send(err));
   }
 };
